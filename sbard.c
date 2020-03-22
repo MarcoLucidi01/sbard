@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Marco Lucidi
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 #include <X11/Xlib.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -32,9 +8,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "sbard.h"
 #include "config.h"
 
-#define USAGE   "usage: sbard [-o]\n\n"                                                \
+#define USAGE   "usage: sbard [-o]\n"                                                  \
                 "status bar daemon\n"                                                  \
                 "runs in the background and updates WM_NAME X11 property of the\n"     \
                 "root window periodically (tip: send SIGHUP to refresh immediately)\n" \
@@ -119,19 +96,20 @@ static void noop(int sig)
 static const char *mkbar(void)
 {
         static char bar[MAXBARLEN];
+        static char buf[MAXBARLEN / 2];
 
         int len = 0;
         int rem = sizeof(bar);
 
-        for (unsigned int i = 0; i < ARRAYLEN(info); i++) {
+        for (unsigned int i = 0; i < ARRAYLEN(config); i++) {
                 if (rem <= 0)
                         break;
 
-                const char *s = info[i].func(info[i].arg);
+                const char *s = config[i].func(config[i].arg, buf, sizeof(buf));
                 if (s == NULL)
                         s = NOTAVAILABLE;
 
-                int w = snprintf(bar + len, rem, info[i].fmt, s);
+                int w = snprintf(bar + len, rem, config[i].fmt, s);
                 if (w < 0)
                         return NOTAVAILABLE;
 

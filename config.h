@@ -1,24 +1,21 @@
-#define NOTAVAILABLE "n/a"
+#define NOTAVAILABLE    "n/a"
 
 enum {
         MAXBARLEN       = 1024,
         REFRESHINTERVAL = 60,   /* in seconds */
 };
 
-const char *memused(const void *);
-const char *volperc(const void *);
-const char *acstatus(const void *);
-const char *sumbatperc(const void *);
-const char *datetime(const void *);
+BatConfig batconfig = {
+        .cap            = (char *[]){ "/sys/class/power_supply/BAT0/capacity", "/sys/class/power_supply/BAT1/capacity", NULL },
+        .ac             = "/sys/class/power_supply/AC/online",
+        .low            = 40,
+        .critical       = 20,
+        .criticalcmd    = "systemctl poweroff"
+};
 
-struct {
-        const char *fmt;
-        const char *(*func)(const void *);
-        const void *arg;
-} info[] = {
-        { "m:%s ",      memused,        NULL },
-        { "v:%s ",      volperc,        NULL },
-        { "b:%s",       acstatus,       "AC" },
-        { "%s ",        sumbatperc,     (const char *[]){ "BAT0", "BAT1", NULL } },
-        { "%s",         datetime,       "%d/%m %H:%M" },
+Config config[] = {
+        { .fmt = "m:%s ",       .func = memory,         .arg = NULL },
+        { .fmt = "v:%s ",       .func = volume,         .arg = NULL },
+        { .fmt = "b:%s ",       .func = battery,        .arg = &batconfig },
+        { .fmt = "%s",          .func = datetime,       .arg = "%d/%m %H:%M" },
 };
