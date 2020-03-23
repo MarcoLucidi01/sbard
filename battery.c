@@ -9,29 +9,29 @@ enum {
         ACUNKNOWN = '?',
 };
 
-static char acstatus(const char *acfname);
-static int sumcapacity(char **capfnames);
+static char acstatus(const char *);
+static int sumcapacity(char **);
 
 char *battery(const void *arg, char *buf, size_t size)
 {
         const BatConfig *bat = arg;
 
         char ac = acstatus(bat->ac);
-        int perc = sumcapacity(bat->cap);
-        if (perc < 0)
+        int cap = sumcapacity(bat->cap);
+        if (cap < 0)
                 return NULL;
 
-        if (ac != ACON && perc <= bat->critical)
+        if (ac != ACON && cap <= bat->critical)
                 sh(bat->criticalcmd, buf, size);
 
-        const char *fmt = (perc > bat->low || ac == ACON) ? "%c%u%%" : "(!!! %c%u%% !!!)";
-        snprintf(buf, size, fmt, ac, perc);
+        const char *fmt = (cap > bat->low || ac == ACON) ? "%c%d%%" : "(!!! %c%d%% !!!)";
+        snprintf(buf, size, fmt, ac, cap);
         return buf;
 }
 
-static char acstatus(const char *acfname)
+static char acstatus(const char *acfpath)
 {
-        FILE *f = fopen(acfname, "r");
+        FILE *f = fopen(acfpath, "r");
         if (f == NULL)
                 return ACUNKNOWN;
 
@@ -45,21 +45,21 @@ static char acstatus(const char *acfname)
         return ACUNKNOWN;
 }
 
-static int sumcapacity(char **capfnames)
+static int sumcapacity(char **capfpaths)
 {
         int sum = 0;
-        for (int i = 0; capfnames[i] != NULL; i++) {
-                FILE *f = fopen(capfnames[i], "r");
+        for (int i = 0; capfpaths[i] != NULL; i++) {
+                FILE *f = fopen(capfpaths[i], "r");
                 if (f == NULL)
                         return -1;
 
-                int perc;
-                int ret = fscanf(f, "%d", &perc);
+                int cap;
+                int ret = fscanf(f, "%d", &cap);
                 fclose(f);
-                if (ret == EOF || ret != 1 || perc < 0)
+                if (ret == EOF || ret != 1 || cap < 0)
                         return -1;
 
-                sum += perc;
+                sum += cap;
         }
         return sum;
 }
