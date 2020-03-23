@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#include "sbard.h"
-
 char *memory(const void *arg, char *buf, size_t size)
 {
         (void)arg;

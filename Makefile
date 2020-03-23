@@ -5,14 +5,15 @@ CFLAGS := -std=c99 -pedantic -Wall -Wextra -Werror -D_POSIX_C_SOURCE=199309L
 LDLIBS := -lX11 -lasound
 PREFIX := /usr/local
 
-sbard: sbard.o memory.o volume.o battery.o datetime.o
+sbard: sbard.o memory.o volume.o battery.o datetime.o sh.o
 	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
 
-sbard.o: sbard.c config.h sbard.h
-memory.o: memory.c
-volume.o: volume.c
 battery.o: battery.c sbard.h
 datetime.o: datetime.c
+memory.o: memory.c
+sbard.o: sbard.c config.h sbard.h
+sh.o: sh.c
+volume.o: volume.c
 
 install: sbard
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

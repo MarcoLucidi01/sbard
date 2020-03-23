@@ -1,6 +1,8 @@
 #ifndef SBARD_HEADER
 #define SBARD_HEADER
 
+#include <stddef.h>
+
 typedef struct {
         const char      *fmt;
         char            *(*func)(const void *, char *, size_t);
@@ -10,8 +12,8 @@ typedef struct {
 typedef struct {
         char            **cap;
         const char      *ac;
-        unsigned int    low;
-        unsigned int    critical;
+        int             low;
+        int             critical;
         const char      *criticalcmd;
 } BatConfig;
 
@@ -19,5 +21,6 @@ char *datetime(const void *, char *, size_t);
 char *memory(const void *, char *, size_t);
 char *volume(const void *, char *, size_t);
 char *battery(const void *, char *, size_t);
+char *sh(const void *, char *, size_t);
 
 #endif

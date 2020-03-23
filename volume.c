@@ -1,6 +1,5 @@
 #include <alsa/asoundlib.h>
-
-#include "sbard.h"
+#include <stddef.h>
 
 /* code adapted from https://stackoverflow.com/a/7661176 */
 char *volume(const void *arg, char *buf, size_t size)

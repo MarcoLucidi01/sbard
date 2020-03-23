@@ -1,7 +1,5 @@
 #include <time.h>
 
-#include "sbard.h"
-
 char *datetime(const void *arg, char *buf, size_t size)
 {
         const char *fmt = arg;
