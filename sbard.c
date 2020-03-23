@@ -95,11 +95,12 @@ static void noop(int sig)
 
 static const char *mkbar(void)
 {
-        static char bar[MAXBARLEN];
-        static char buf[MAXBARLEN / 2];
+        static char bar[MAXBARLEN];     /* buffer for the bar */
+        static char buf[MAXBARLEN / 2]; /* buffer for functions that extract infos */
 
         int len = 0;
         int rem = sizeof(bar);
+        bar[0] = '\0';
 
         for (unsigned int i = 0; i < ARRAYLEN(config); i++) {
                 if (rem <= 0)
