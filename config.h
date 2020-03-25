@@ -30,13 +30,15 @@ BatConfig batconfig = {
  *
  *   function   return                                                  argument
  *
+ *   battery    sum of the capacity of batteries and ac status          BatConfig
  *   datetime   formatted date and/or time                              format string for strftime()
  *   memory     amount of memory used in MB or GB                       NULL
- *   volume     percentage of playback volume fetched using alsa        NULL
- *   battery    sum of the capacity of batteries and ac status          BatConfig
  *   sh         first line of output of shell command                   shell command to run
+ *   volume     percentage of playback volume fetched using alsa        NULL
+ *   wireless   percentage of wireless link quality if connected        interface name
  */
 Config config[] = {
+        { .fmt = "w:%s ",       .func = wireless,       .arg = "wlp3s0" },
         { .fmt = "m:%s ",       .func = memory,         .arg = NULL },
         { .fmt = "v:%s ",       .func = volume,         .arg = NULL },
         { .fmt = "b:%s ",       .func = battery,        .arg = &batconfig },
