@@ -21,6 +21,7 @@ char *battery(const void *, char *, size_t);
 char *datetime(const void *, char *, size_t);
 char *memory(const void *, char *, size_t);
 char *sh(const void *, char *, size_t);
+char *temperature(const void *, char *, size_t);
 char *volume(const void *, char *, size_t);
 char *wireless(const void *, char *, size_t);
 
