@@ -10,8 +10,8 @@ typedef struct {
 } Config;
 
 typedef struct {
-        char            **cap;
-        const char      *ac;
+        char            **names;
+        const char      *acname;
         int             low;
         int             critical;
         const char      *criticalcmd;

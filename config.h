@@ -1,4 +1,4 @@
-#define NOTAVAILABLE    "n/a"   /* placeholder */
+#define NOTAVAILABLE    "N/A"   /* placeholder */
 
 enum {
         MAXBARLEN       = 1024,
@@ -7,21 +7,21 @@ enum {
 
 /*
  * Configuration for the battery function. I have 2 batteries inside my laptop,
- * that's way cap is an array and the function return a sum. low and critical
+ * that's why names is an array and the function return a sum. low and critical
  * levels refers to the sum.
  *
- *   cap                NULL terminated array of capacity filepaths of the batteries
- *   ac                 filepath of the AC/online file
+ *   names              NULL terminated array of batteries names
+ *   acname             usually AC
  *   low                low capacity level
  *   critical           critical capacity level
  *   criticalcmd        command executed when critical level is reached
  */
 BatConfig batconfig = {
-        .cap            = (char *[]){ "/sys/class/power_supply/BAT0/capacity", "/sys/class/power_supply/BAT1/capacity", NULL },
-        .ac             = "/sys/class/power_supply/AC/online",
-        .low            = 40,
-        .critical       = 20,
-        .criticalcmd    = "systemctl poweroff"
+        .names       = (char *[]){ "BAT0", "BAT1", NULL },
+        .acname      = "AC",
+        .low         = 40,
+        .critical    = 20,
+        .criticalcmd = "systemctl poweroff"
 };
 
 /*

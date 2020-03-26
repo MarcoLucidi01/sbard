@@ -9,15 +9,15 @@ enum {
         ACUNKNOWN = '?',
 };
 
-static char acstatus(const char *);
-static int sumcapacity(char **);
+static char acstatus(const char *, char *, size_t);
+static int sumcapacity(char **, char *, size_t);
 
 char *battery(const void *arg, char *buf, size_t size)
 {
         const BatConfig *bat = arg;
 
-        char ac = acstatus(bat->ac);
-        int cap = sumcapacity(bat->cap);
+        char ac = acstatus(bat->acname, buf, size);
+        int cap = sumcapacity(bat->names, buf, size);
         if (cap < 0)
                 return NULL;
 
@@ -29,9 +29,10 @@ char *battery(const void *arg, char *buf, size_t size)
         return buf;
 }
 
-static char acstatus(const char *acfpath)
+static char acstatus(const char *acname, char *buf, size_t size)
 {
-        FILE *f = fopen(acfpath, "r");
+        snprintf(buf, size, "/sys/class/power_supply/%s/online", acname);
+        FILE *f = fopen(buf, "r");
         if (f == NULL)
                 return ACUNKNOWN;
 
@@ -45,14 +46,14 @@ static char acstatus(const char *acfpath)
         return ACUNKNOWN;
 }
 
-static int sumcapacity(char **capfpaths)
+static int sumcapacity(char **names, char *buf, size_t size)
 {
         int sum = 0;
-        for (int i = 0; capfpaths[i] != NULL; i++) {
-                FILE *f = fopen(capfpaths[i], "r");
+        for (int i = 0; names[i] != NULL; i++) {
+                snprintf(buf, size, "/sys/class/power_supply/%s/capacity", names[i]);
+                FILE *f = fopen(buf, "r");
                 if (f == NULL)
                         return -1;
-
                 int cap;
                 int ret = fscanf(f, "%d", &cap);
                 fclose(f);
