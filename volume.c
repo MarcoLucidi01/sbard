@@ -1,3 +1,5 @@
+/* see LICENSE file for copyright and license details */
+
 #include <alsa/asoundlib.h>
 #include <stddef.h>
 

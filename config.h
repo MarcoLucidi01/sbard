@@ -1,3 +1,5 @@
+/* see LICENSE file for copyright and license details */
+
 #define NOTAVAILABLE    "N/A"   /* placeholder */
 
 enum {

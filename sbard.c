@@ -1,3 +1,5 @@
+/* see LICENSE file for copyright and license details */
+
 #include <X11/Xlib.h>
 #include <signal.h>
 #include <stdbool.h>

@@ -1,3 +1,5 @@
+/* see LICENSE file for copyright and license details */
+
 #ifndef SBARD_HEADER
 #define SBARD_HEADER
 
