@@ -17,5 +17,5 @@ char *sh(const void *arg, char *buf, size_t size)
                         *p = '\0';
         }
 
-        return buf;
+        return ret;
 }
