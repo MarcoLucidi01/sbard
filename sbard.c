@@ -57,11 +57,11 @@ static void run(void)
         memset(&sa, 0, sizeof(sa));
         sa.sa_handler = stop;
         if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGTERM, &sa, NULL) < 0)
-                die("could not setup singal handlers");
+                die("could not setup signal handlers");
 
         sa.sa_handler = noop;   /* break from sleep() to refresh the bar */
         if (sigaction(SIGHUP, &sa, NULL) < 0)
-                die("could not setup singal handlers");
+                die("could not setup signal handlers");
 
         Display *dpy = XOpenDisplay(NULL);
         if (dpy == NULL)
