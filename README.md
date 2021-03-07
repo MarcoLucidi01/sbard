@@ -26,7 +26,7 @@ features
 
 these are the features which I consider important and which I like to keep an
 eye on while I'm doing my stuff. It also monitors for battery capacity and runs
-a (configurable) command when it reaches a critical level.
+(configurable) commands when it reaches low or critical level.
 
 install
 =======

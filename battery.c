@@ -18,11 +18,15 @@ char *battery(const void *arg, char *buf, size_t size)
 {
         const BatConfig *bat = arg;
 
-        char ac = acstatus(bat->acname, buf, size);
         int cap = sumcapacity(bat->names, buf, size);
         if (cap < 0)
                 return NULL;
 
+        char ac = acstatus(bat->acname, buf, size);
+        if (ac != ACON && cap <= bat->low)
+                sh(bat->lowcmd, buf, size);
+
+        ac = acstatus(bat->acname, buf, size);
         if (ac != ACON && cap <= bat->critical)
                 sh(bat->criticalcmd, buf, size);
 
