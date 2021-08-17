@@ -8,7 +8,7 @@ LDLIBS := -lX11 -lasound
 PREFIX := /usr/local
 
 sbard: sbard.o memory.o volume.o battery.o datetime.o sh.o wireless.o temperature.o
-	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 battery.o: battery.c sbard.h
 datetime.o: datetime.c
