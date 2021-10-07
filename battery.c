@@ -1,5 +1,6 @@
 /* see LICENSE file for copyright and license details */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,14 +12,14 @@ enum {
         ACUNKNOWN = '?',
 };
 
-static char acstatus(const char *, char *, size_t);
-static int sumcapacity(char **, char *, size_t);
+static char     acstatus(const char *, char *, size_t);
+static int      avgcapacity(char **, char *, size_t);
 
 char *battery(const void *arg, char *buf, size_t size)
 {
         const BatConfig *bat = arg;
 
-        int cap = sumcapacity(bat->names, buf, size);
+        int cap = avgcapacity(bat->names, buf, size);
         if (cap < 0)
                 return NULL;
 
@@ -52,10 +53,11 @@ static char acstatus(const char *acname, char *buf, size_t size)
         return ACUNKNOWN;
 }
 
-static int sumcapacity(char **names, char *buf, size_t size)
+static int avgcapacity(char **names, char *buf, size_t size)
 {
         int sum = 0;
-        for (int i = 0; names[i] != NULL; i++) {
+        int i;
+        for (i = 0; names[i] != NULL; i++) {
                 snprintf(buf, size, "/sys/class/power_supply/%s/capacity", names[i]);
                 FILE *f = fopen(buf, "r");
                 if (f == NULL)
@@ -68,5 +70,7 @@ static int sumcapacity(char **names, char *buf, size_t size)
 
                 sum += cap;
         }
+        if (i > 1)
+                return lround((double)sum / i);
         return sum;
 }

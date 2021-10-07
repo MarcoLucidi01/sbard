@@ -8,9 +8,12 @@ enum {
 };
 
 /*
- * Configuration for the battery function. I have 2 batteries inside my laptop,
- * that's why names is an array and the function return a sum. low and critical
- * levels refers to the sum.
+ * Configuration for the battery function.
+ *
+ * Look at /sys/class/power_supply for battery and AC names.
+ * TODO battery and AC names could be easily detected at runtime.
+ *
+ * The function returns average capacity percentage.
  *
  *   names              NULL terminated array of batteries names
  *   acname             usually AC
@@ -22,10 +25,10 @@ enum {
 BatConfig batconfig = {
         .names       = (char *[]){ "BAT0", "BAT1", NULL },
         .acname      = "AC",
-        .low         = 40,
+        .low         = 20,
         .lowcmd      = "echo",  /* placeholder */
-        .critical    = 20,
-        .criticalcmd = "systemctl poweroff"
+        .critical    = 10,
+        .criticalcmd = "systemctl poweroff",
 };
 
 /*
