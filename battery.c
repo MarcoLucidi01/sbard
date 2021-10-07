@@ -6,13 +6,13 @@
 
 #include "sbard.h"
 
-enum {
-        ACON      = '+',
-        ACOFF     = '-',
-        ACUNKNOWN = '?',
-};
+typedef enum {
+        ACON,
+        ACOFF,
+        ACUNKNOWN,
+} ACState;
 
-static char     acstatus(const char *, char *, size_t);
+static ACState  acstate(const char *, char *, size_t);
 static int      avgcapacity(char **, char *, size_t);
 
 char *battery(const void *arg, char *buf, size_t size)
@@ -23,20 +23,28 @@ char *battery(const void *arg, char *buf, size_t size)
         if (cap < 0)
                 return NULL;
 
-        char ac = acstatus(bat->acname, buf, size);
+        ACState ac = acstate(bat->acname, buf, size);
         if (ac != ACON && cap <= bat->low)
                 sh(bat->lowcmd, buf, size);
 
-        ac = acstatus(bat->acname, buf, size);
+        ac = acstate(bat->acname, buf, size);
         if (ac != ACON && cap <= bat->critical)
                 sh(bat->criticalcmd, buf, size);
 
-        const char *fmt = (cap > bat->low || ac == ACON) ? "%c%d%%" : "(!!! %c%d%% !!!)";
-        snprintf(buf, size, fmt, ac, cap);
+        int i = 0;
+        if (ac == ACON)
+                buf[i++] = '+';
+        else if (cap <= bat->low)
+                while (i < (int)size - 1 && i <= bat->low - cap)
+                        buf[i++] = '!';
+        else if (ac == ACUNKNOWN)
+                buf[i++] = '?';
+
+        snprintf(buf + i, size - i, "%d", cap);
         return buf;
 }
 
-static char acstatus(const char *acname, char *buf, size_t size)
+static ACState acstate(const char *acname, char *buf, size_t size)
 {
         snprintf(buf, size, "/sys/class/power_supply/%s/online", acname);
         FILE *f = fopen(buf, "r");
