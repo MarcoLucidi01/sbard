@@ -15,11 +15,11 @@ enum {
  *
  * The function returns average capacity percentage.
  *
- *   names              NULL terminated array of batteries names
- *   acname             usually AC
- *   low                low capacity level
- *   critical           critical capacity level
- *   criticalcmd        command executed when critical level is reached
+ *   names        NULL terminated array of battery names
+ *   acname       usually AC
+ *   low          low capacity level
+ *   critical     critical capacity level
+ *   criticalcmd  command executed when critical level is reached (or NULL for no command)
  */
 BatConfig batconfig = {
         .names       = (char *[]){ "BAT0", "BAT1", NULL },
@@ -35,7 +35,7 @@ BatConfig batconfig = {
  *
  *   function    return                                                 argument
  *
- *   battery     sum of the capacity of batteries and ac status         BatConfig
+ *   battery     average capacity percentage of batteries and ac status BatConfig
  *   datetime    formatted date and/or time                             format string for strftime()
  *   memory      amount of memory used in MB or GB                      NULL
  *   sh          first line of output of shell command                  shell command to run
@@ -49,5 +49,6 @@ Config config[] = {
         { .fmt = "m:%s ",       .func = memory,         .arg = NULL },
         { .fmt = "v:%s ",       .func = volume,         .arg = NULL },
         { .fmt = "b:%s ",       .func = battery,        .arg = &batconfig },
-        { .fmt = "%s",          .func = datetime,       .arg = "%d/%m %H:%M" },
+        { .fmt = "%s ",         .func = datetime,       .arg = "%d/%m %H:%M" },
+        { .fmt = "%s",          .func = sh,             .arg = "echo \"$(whoami)@$(hostname)\"" },
 };

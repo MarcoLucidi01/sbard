@@ -15,9 +15,9 @@
 
 #define USAGE   "usage: sbard [-o]\n"                                                  \
                 "status bar daemon\n"                                                  \
-                "runs in the background and updates WM_NAME X11 property of the\n"     \
-                "root window periodically (tip: send SIGHUP to refresh immediately)\n" \
-                "configuration happens in config.h\n\n"                                \
+                "it periodically updates WM_NAME X11 property of the root window.\n"   \
+                "send SIGHUP to refresh immediately.\n"                                \
+                "configure in config.h\n\n"                                            \
                 "  -o  don't run as daemon, write bar to stdout and exit\n\n"          \
                 "repo: https://github.com/MarcoLucidi01/sbard"                         \
 

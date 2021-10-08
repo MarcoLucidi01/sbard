@@ -9,35 +9,35 @@ and [`tmux`](https://tmux.github.io/). I was using a shell script that spawned
 watching videos and movies.
 
 yes, there is already [slstatus](https://git.suckless.org/slstatus/)
-(and many others). I "stole" their whole design. You should really use [slstatus](https://git.suckless.org/slstatus/).
-It's way more portable and way more well written. sbard only runs on Linux
-(probably). I wrote it just for fun and for learning.
+(and many others). I "stole" their whole design. you should really use [slstatus](https://git.suckless.org/slstatus/).
+it's way more portable and way more well written. `sbard` only runs on Linux.
+I wrote it just for fun and for learning.
 
 features
 ========
 
-- battery: sum of the capacity of batteries and ac status
+- battery: average capacity percentage of batteries and ac status
 - datetime: formatted date and/or time
 - memory: amount of memory used in MB or GB
 - sh: first line of output of shell command
 - temperature: temperature in celsius of thermal zone
-- volume: percentage of playback volume fetched using alsa
+- volume: percentage of playback volume fetched using `alsa`
 - wireless: percentage of wireless link quality if connected
 
 these are the features which I consider important and which I like to keep an
 eye on while I'm doing my stuff. It also monitors for battery capacity and runs
-(configurable) commands when it reaches low or critical level.
+a configurable command when it reaches critical level.
 
 install
 =======
 
-it requires `Xlib` and `libasound` ([ALSA](https://alsa-project.org/)). On
+depends on `Xlib` and `libasound` ([ALSA](https://alsa-project.org/)). On
 Debian:
 
     # apt-get install libx11-dev libasound2-dev
 
 configuration happens inside [`config.h`](https://github.com/MarcoLucidi01/sbard/blob/master/config.h).
-You must recompile the whole thing every time you want to change something.
+you must recompile the whole thing every time you want to change something.
 
 to install inside `/usr/local/bin`:
 
@@ -54,4 +54,4 @@ with the `-o` flag, it doesn't run as daemon and writes to `stdout`, I use this
 flag for [`tmux`](https://tmux.github.io/):
 
     $ sbard -o
-    t:52°C w:100% m:1.37G v:69% b:+151% 29/03 14:29
+    t:41 w:100 m:301M v:60 b:58 08/10 14:25 marco@thinkpad
