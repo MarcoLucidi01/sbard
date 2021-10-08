@@ -17,6 +17,6 @@ char *temperature(const void *arg, char *buf, size_t size)
                 return NULL;
 
         /* temperature unit is millidegree celsius */
-        snprintf(buf, size, "%.0f°C", (double)temp / 1000.0);
+        snprintf(buf, size, "%.0f", (double)temp / 1000.0);
         return buf;
 }

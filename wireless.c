@@ -32,6 +32,6 @@ char *wireless(const void *arg, char *buf, size_t size)
                 return NULL;
 
         /* link quality goes from 0 to 70 */
-        snprintf(buf, size, "%.0f%%", (double)link / 70.0 * 100.0);
+        snprintf(buf, size, "%.0f", (double)link / 70.0 * 100.0);
         return buf;
 }

@@ -42,7 +42,7 @@ char *volume(const void *arg, char *buf, size_t size)
                 vol -= min;
                 max -= min;
                 vol = 100 * vol / max;
-                snprintf(buf, size, "%ld%%", vol);
+                snprintf(buf, size, "%ld", vol);
         } else
                 snprintf(buf, size, "--");
 
