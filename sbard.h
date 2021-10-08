@@ -15,7 +15,6 @@ typedef struct {
         char            **names;
         const char      *acname;
         int             low;
-        const char      *lowcmd;
         int             critical;
         const char      *criticalcmd;
 } BatConfig;

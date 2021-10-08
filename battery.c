@@ -24,10 +24,6 @@ char *battery(const void *arg, char *buf, size_t size)
                 return NULL;
 
         ACState ac = acstate(bat->acname, buf, size);
-        if (ac != ACON && cap <= bat->low)
-                sh(bat->lowcmd, buf, size);
-
-        ac = acstate(bat->acname, buf, size);
         if (ac != ACON && cap <= bat->critical)
                 sh(bat->criticalcmd, buf, size);
 

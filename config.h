@@ -18,7 +18,6 @@ enum {
  *   names              NULL terminated array of batteries names
  *   acname             usually AC
  *   low                low capacity level
- *   lowcmd             command executed when low level is reached
  *   critical           critical capacity level
  *   criticalcmd        command executed when critical level is reached
  */
@@ -26,7 +25,6 @@ BatConfig batconfig = {
         .names       = (char *[]){ "BAT0", "BAT1", NULL },
         .acname      = "AC",
         .low         = 20,
-        .lowcmd      = "echo",  /* placeholder */
         .critical    = 10,
         .criticalcmd = "systemctl poweroff",
 };
