@@ -22,7 +22,7 @@ enum {
  *   criticalcmd  command executed when critical level is reached (or NULL for no command)
  */
 BatConfig batconfig = {
-        .names       = (char *[]){ "BAT0", "BAT1", NULL },
+        .names       = (const char *[]){ "BAT0", "BAT1", NULL },
         .acname      = "AC",
         .low         = 20,
         .critical    = 10,

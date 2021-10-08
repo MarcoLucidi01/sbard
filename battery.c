@@ -13,7 +13,7 @@ typedef enum {
 } ACState;
 
 static ACState  acstate(const char *, char *, size_t);
-static int      avgcapacity(char **, char *, size_t);
+static int      avgcapacity(const char **, char *, size_t);
 
 char *battery(const void *arg, char *buf, size_t size)
 {
@@ -57,7 +57,7 @@ static ACState acstate(const char *acname, char *buf, size_t size)
         return ACUNKNOWN;
 }
 
-static int avgcapacity(char **names, char *buf, size_t size)
+static int avgcapacity(const char **names, char *buf, size_t size)
 {
         int sum = 0;
         int i;

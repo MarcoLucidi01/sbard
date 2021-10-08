@@ -12,7 +12,7 @@ typedef struct {
 } Config;
 
 typedef struct {
-        char            **names;
+        const char      **names;
         const char      *acname;
         int             low;
         int             critical;
